@@ -1,5 +1,8 @@
 import urllib, urllib2
-
+try:
+    import simplejson as json
+except ImportError:
+    import json
 
 class Silcc(object):
 
@@ -20,5 +23,5 @@ class Silcc(object):
         if not (content and  len(content.strip())):
             return None
         result = self.rest_POST(content)
-        results = [r.strip('"') for r in result[1:-1].split(', ')]
+        results = json.loads(result)
         return results
