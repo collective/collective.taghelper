@@ -8,7 +8,7 @@ from collective.taghelper import taghelperMessageFactory as _
 from collective.taghelper.utilities import get_yql_subjects
 from collective.taghelper.utilities import get_calais_subjects
 from collective.taghelper.utilities import get_silcc_subjects
-
+from collective.taghelper.utilities import get_ttn_subjects
 
 
 class IExtractedTermsView(Interface):
@@ -63,15 +63,19 @@ class ExtractedTermsView(BrowserView):
         return text
 
 
-
     def yahoo_terms(self):
         return get_yql_subjects(self.url)
 
     def calais_terms(self):
-        return get_calais_subjects(self.text)
+        return get_calais_subjects(self.text, self.context.UID())
+
+    def ttn_terms(self):
+        return get_ttn_subjects(self.text)
+
 
     def silcc_terms(self):
-        return get_silcc_subjects(self.text)
+        text = self.context.Title() + '. ' + self.context.Description()
+        return get_silcc_subjects(text)
 
     def __call__(self):
         form = self.request.form

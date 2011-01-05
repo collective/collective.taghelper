@@ -51,8 +51,24 @@
                                 value term"
                 name="subject:list"
                  />
-                <label for="calais_term_1"
+                <label for="silcc_term_1"
                     tal:attributes="for string:silcc_term_${repeat/term/letter}"
+                    tal:content="term">Biodiversity</label>
+
+              </div>
+            </fieldset>
+            <fieldset id="fieldset-ttn" tal:define="terms view/ttn_terms">
+              <legend id="fieldsetlegend-ttn">TagThe.Net</legend>
+              <div tal:repeat="term terms">
+                <input type="checkbox"
+                id="ttn_term_1"
+                value="Biodiversity"
+                tal:attributes="id string:ttn_term_${repeat/term/letter};
+                                value term"
+                name="subject:list"
+                 />
+                <label for="ttn_term_1"
+                    tal:attributes="for string:ttn_term_${repeat/term/letter}"
                     tal:content="term">Biodiversity</label>
 
               </div>

@@ -3,6 +3,7 @@
 import yql
 from calais import Calais
 from silcc import Silcc
+from tagthenet import TagTheNet
 
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
@@ -33,6 +34,12 @@ def get_yql_subjects(url):
     else:
         return []
 
+def get_ttn_subjects(text):
+    ttn = TagTheNet()
+    return ttn.analyze(text)
+
+
+
 def get_silcc_subjects(text):
     registry = getUtility(IRegistry)
     settings = registry.forInterface(ITagHelperSettingsSchema)
@@ -46,7 +53,7 @@ def get_silcc_subjects(text):
     except:
         return []
 
-def get_calais_subjects(text):
+def get_calais_subjects(text, uid):
     registry = getUtility(IRegistry)
     settings = registry.forInterface(ITagHelperSettingsSchema)
     api_key = settings.calais_api_key
@@ -54,7 +61,7 @@ def get_calais_subjects(text):
     if api_key:
         calais = Calais(api_key)
         try:
-            result = calais.analyze(text)
+            result = calais.analyze(text, external_id = uid)
         except:
             return []
         if hasattr( result, 'entities'):
