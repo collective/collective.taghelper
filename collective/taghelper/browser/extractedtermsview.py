@@ -32,35 +32,17 @@ class ExtractedTermsView(BrowserView):
         self.request = request
         if self.context.portal_type == 'File':
             self.url = self.request.URL1 +'/filehtmlpreview_view'
-        elif self.context.portal_type == 'Link':
+        elif hasattr(self.context, 'getRemoteUrl'):
             self.url = self.context.getRemoteUrl()
-        else:
+        if not self.url:
             self.url = self.request.URL1 +'?ajax_load=1'
         self.text = self._get_text()
 
     def _get_text(self):
-        portal_transforms = getToolByName(self.context, 'portal_transforms')
-        text = ''
-        if self.context.portal_type in ['Document', 'News Item', 'Event']:
-            html = self.context.getText()
-            text = portal_transforms.convert('html_to_text', html).getData()
-            text = self.context.Title() + '. ' +\
-                self.context.Description() +'. ' + text
-        elif self.context.portal_type == 'Link':
-            text = self.context.Title() + '. ' + self.context.Description()
-        elif self.context.portal_type == 'File':
-            try:
-                text = portal_transforms.convertTo('text/plain',
-                    self.context.data,
-                    mimetype=self.context.get_content_type).getData()
-            except AttributeError:
-                pass
-        elif self.context.portal_type == 'Project':
-            html = self.context.getProject_summary()
-            text = portal_transforms.convert('html_to_text', html).getData()
-            text = self.context.Title() + '. ' +\
-                self.context.Description() +'. ' + text
-        return text
+        if hasattr(self.context, 'SearchableText'):
+            return self.context.SearchableText()
+        else:
+            return ''
 
 
     def yahoo_terms(self):

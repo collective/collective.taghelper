@@ -29,14 +29,22 @@ class TagTheNet(object):
         '''
         http://tagthe.net/api/?url=http://www.knallgrau.at/en&view=json
         '''
-        params = urllib.urlencode({'url':url, 'view':'json'})
-        keywords = self._analyze(params)
+        keywords = []
+        try:
+            params = urllib.urlencode({'url':url, 'view':'json'})
+            keywords = self._analyze(params)
+        except:
+            pass
         return keywords
 
     def analyze(self, text):
         '''
         http://tagthe.net/api/?text=Hello%20World!
         '''
-        params = urllib.urlencode({'text':text, 'view':'json'})
-        keywords = self._analyze(params)
+        keywords = []
+        try:
+            params = urllib.urlencode({'text':text, 'view':'json'})
+            keywords = self._analyze(params)
+        except:
+            pass
         return keywords
