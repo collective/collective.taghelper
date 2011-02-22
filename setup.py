@@ -36,7 +36,9 @@ tests_require = ['zope.testing']
 
 setup(name='collective.taghelper',
       version=version,
-      description="Extracts terms out of the content to classify the item",
+      description="""The act of tagging content is tedious and humans will
+            often fail to do it. Taghelper examines the content and
+            extracts the keywords that are most relevant.""",
       long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers

@@ -38,6 +38,9 @@ def get_ttn_subjects(text):
     ttn = TagTheNet()
     return ttn.analyze(text)
 
+def get_ttn_subjects_remote(url):
+    ttn = TagTheNet()
+    return ttn.analyze_url(url)
 
 
 def get_silcc_subjects(text):

@@ -1,14 +1,19 @@
 from zope.interface import implements, Interface
+from zope.component import getUtility
 
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
+
+from plone.registry.interfaces import IRegistry
 
 from collective.taghelper import taghelperMessageFactory as _
 from collective.taghelper.utilities import get_yql_subjects
 from collective.taghelper.utilities import get_calais_subjects
 from collective.taghelper.utilities import get_silcc_subjects
 from collective.taghelper.utilities import get_ttn_subjects
+from collective.taghelper.utilities import get_ttn_subjects_remote
+from collective.taghelper.interfaces import ITagHelperSettingsSchema
 
 
 class IExtractedTermsView(Interface):
@@ -26,14 +31,21 @@ class ExtractedTermsView(BrowserView):
     implements(IExtractedTermsView)
 
     template = ViewPageTemplateFile('extractedtermsview.pt')
+    use_remote_url = False
 
     def __init__(self, context, request):
+        registry = getUtility(IRegistry)
+        settings = registry.forInterface(ITagHelperSettingsSchema)
+        self.use_remote_url = settings.use_remote_url
         self.context = context
         self.request = request
         if self.context.portal_type == 'File':
             self.url = self.request.URL1 +'/filehtmlpreview_view'
         elif hasattr(self.context, 'getRemoteUrl'):
-            self.url = self.context.getRemoteUrl()
+            if self.use_remote_url and self.context.getRemoteUrl():
+                self.url = self.context.getRemoteUrl()
+            else:
+                self.url = self.request.URL1 +'?ajax_load=1'
         if not self.url:
             self.url = self.request.URL1 +'?ajax_load=1'
         self.text = self._get_text()
@@ -52,7 +64,10 @@ class ExtractedTermsView(BrowserView):
         return get_calais_subjects(self.text, self.context.UID())
 
     def ttn_terms(self):
-        return get_ttn_subjects(self.text)
+        if self.use_remote_url:
+            return get_ttn_subjects_remote(self.url)
+        else:
+            return get_ttn_subjects(self.text)
 
 
     def silcc_terms(self):

@@ -37,3 +37,13 @@ class ITagHelperSettingsSchema(interface.Interface):
         readonly=False,
         default=u'http://opensilcc.com/api/tag',
         )
+
+    use_remote_url = schema.Bool(
+        title=u'Use remote url',
+        description=u'''If the content item has a remote url
+                        extract the tags from there rather than
+                        from the local content (Yahoo and tagthe.net only)''',
+        required=False,
+        readonly=False,
+        default=True,
+        )
