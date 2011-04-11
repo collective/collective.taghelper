@@ -32,6 +32,7 @@ class ExtractedTermsView(BrowserView):
 
     template = ViewPageTemplateFile('extractedtermsview.pt')
     use_remote_url = False
+    url = ''
 
     def __init__(self, context, request):
         registry = getUtility(IRegistry)
