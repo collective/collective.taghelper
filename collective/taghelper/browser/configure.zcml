@@ -5,7 +5,7 @@
     i18n_domain="collective.taghelper">
 
   <include package="plone.app.contentmenu" />
-
+  <include package="Products.CMFCore" file="configure.zcml" />
   <!-- -*- extra stuff goes here -*- -->
 
     <include package="plone.app.registry" />
