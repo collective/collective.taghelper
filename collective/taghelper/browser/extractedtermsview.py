@@ -9,10 +9,13 @@ from plone.registry.interfaces import IRegistry
 
 from collective.taghelper import taghelperMessageFactory as _
 from collective.taghelper.utilities import get_yql_subjects
+from collective.taghelper.utilities import get_yql_subjects_remote
 from collective.taghelper.utilities import get_calais_subjects
 from collective.taghelper.utilities import get_silcc_subjects
 from collective.taghelper.utilities import get_ttn_subjects
 from collective.taghelper.utilities import get_ttn_subjects_remote
+from collective.taghelper.utilities import get_alchemy_subjects
+from collective.taghelper.utilities import get_alchemy_subjects_remote
 from collective.taghelper.interfaces import ITagHelperSettingsSchema
 
 
@@ -59,7 +62,10 @@ class ExtractedTermsView(BrowserView):
 
 
     def yahoo_terms(self):
-        return get_yql_subjects(self.url)
+        if self.use_remote_url:
+            return get_yql_subjects_remote(self.url)
+        else:
+             return get_yql_subjects(self.text)
 
     def calais_terms(self):
         return get_calais_subjects(self.text, self.context.UID())
@@ -69,6 +75,12 @@ class ExtractedTermsView(BrowserView):
             return get_ttn_subjects_remote(self.url)
         else:
             return get_ttn_subjects(self.text)
+
+    def alchemy_terms(self):
+        if self.use_remote_url:
+            return get_alchemy_subjects_remote(self.url)
+        else:
+            return get_alchemy_subjects(self.text)
 
 
     def silcc_terms(self):

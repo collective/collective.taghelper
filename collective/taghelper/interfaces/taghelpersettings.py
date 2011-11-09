@@ -38,11 +38,21 @@ class ITagHelperSettingsSchema(interface.Interface):
         default=u'http://opensilcc.com/api/tag',
         )
 
+    alchemy_api_key = schema.TextLine(
+        title=u'AlchemyAPI Key',
+        description=u'API Key can be obtained at http://www.alchemyapi.com/api/register.html',
+        required=False,
+        readonly=False,
+        default=None,
+        )
+
+
+
     use_remote_url = schema.Bool(
         title=u'Use remote url',
         description=u'''If the content item has a remote url
                         extract the tags from there rather than
-                        from the local content (Yahoo and tagthe.net only)''',
+                        from the local content (Yahoo, AlchemyAPI and tagthe.net only)''',
         required=False,
         readonly=False,
         default=True,

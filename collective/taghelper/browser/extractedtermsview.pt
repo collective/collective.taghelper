@@ -7,7 +7,22 @@
         <tal:main-macro metal:define-macro="main">
         <form method="post" class="enableFormTabbing"
                 tal:attributes="action string:${context/absolute_url}/${view/__name__}">
+            <fieldset id="fieldset-alchemy" tal:define="terms view/alchemy_terms">
+              <legend id="fieldsetlegend-alchemy">AlchemyAPI</legend>
+              <div tal:repeat="term terms">
+                <input type="checkbox"
+                id="alchemy_term_1"
+                value="Biodiversity"
+                tal:attributes="id string:alchemy_term_${repeat/term/letter};
+                                value term"
+                name="subject:list"
+                 />
+                <label for="alchemy_term_1"
+                    tal:attributes="for string:alchemy_term_${repeat/term/letter}"
+                    tal:content="term">Biodiversity</label>
 
+              </div>
+            </fieldset>
             <fieldset id="fieldset-calais" tal:define="terms view/calais_terms">
               <legend id="fieldsetlegend-calais">Open Calais</legend>
               <div tal:repeat="term terms">
@@ -40,23 +55,6 @@
                     tal:content="term">Biodiversity</label>
               </div>
             </fieldset>
-
-            <fieldset id="fieldset-silcc" tal:define="terms view/silcc_terms">
-              <legend id="fieldsetlegend-silcc">SiLLC</legend>
-              <div tal:repeat="term terms">
-                <input type="checkbox"
-                id="silcc_term_1"
-                value="Biodiversity"
-                tal:attributes="id string:silcc_term_${repeat/term/letter};
-                                value term"
-                name="subject:list"
-                 />
-                <label for="silcc_term_1"
-                    tal:attributes="for string:silcc_term_${repeat/term/letter}"
-                    tal:content="term">Biodiversity</label>
-
-              </div>
-            </fieldset>
             <fieldset id="fieldset-ttn" tal:define="terms view/ttn_terms">
               <legend id="fieldsetlegend-ttn">TagThe.Net</legend>
               <div tal:repeat="term terms">
@@ -73,6 +71,23 @@
 
               </div>
             </fieldset>
+            <fieldset id="fieldset-silcc" tal:define="terms view/silcc_terms">
+              <legend id="fieldsetlegend-silcc">SiLLC</legend>
+              <div tal:repeat="term terms">
+                <input type="checkbox"
+                id="silcc_term_1"
+                value="Biodiversity"
+                tal:attributes="id string:silcc_term_${repeat/term/letter};
+                                value term"
+                name="subject:list"
+                 />
+                <label for="silcc_term_1"
+                    tal:attributes="for string:silcc_term_${repeat/term/letter}"
+                    tal:content="term">Biodiversity</label>
+
+              </div>
+            </fieldset>
+
             <div>
                 <input type="submit" class="context" name="form.button.save"
                     value="Save" />

@@ -4,10 +4,13 @@ import yql
 from calais import Calais
 from silcc import Silcc
 from tagthenet import TagTheNet
+from AlchemyAPI import AlchemyAPI
 
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
 from collective.taghelper.interfaces import ITagHelperSettingsSchema
+
+from elementtree.ElementTree import XML, tostring
 
 
 
@@ -17,7 +20,46 @@ PREFERRED_ENTITIES = ['City', 'Continent', 'Country', 'MedicalCondition',
     'Region', 'IndustryTerm']
 PREFERRED_FACTS = ['EnvironmentalIssue', 'ManMadeDisaster', 'NaturalDisaster']
 
-def get_yql_subjects(url):
+def _list_alchemy_results(xml):
+    dom = XML(xml)
+    results = []
+    if dom.find('status').text == 'OK':
+        for concept in dom.findall('.//concept/text'):
+            results.append(concept.text)
+    return results
+
+
+def get_alchemy_subjects(text):
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(ITagHelperSettingsSchema)
+    api_key = settings.alchemy_api_key
+    if api_key:
+        alchemyObj = AlchemyAPI()
+        alchemyObj.setAPIKey(api_key)
+        try:
+            result = alchemyObj.TextGetRankedConcepts(text)
+            return _list_alchemy_results(result)
+        except:
+            return []
+    else:
+        return []
+
+def get_alchemy_subjects_remote(url):
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(ITagHelperSettingsSchema)
+    api_key = settings.alchemy_api_key
+    if api_key:
+        alchemyObj = AlchemyAPI()
+        alchemyObj.setAPIKey(api_key)
+        try:
+            result = alchemyObj.URLGetRankedConcepts(url)
+            return _list_alchemy_results(result)
+        except:
+            return []
+    else:
+        return []
+
+def get_yql_subjects_remote(url):
     registry = getUtility(IRegistry)
     settings = registry.forInterface(ITagHelperSettingsSchema)
     api_key = settings.yahoo_api_key
@@ -26,6 +68,23 @@ def get_yql_subjects(url):
         query = '''select * from search.termextract where context in (
                 select content from html where url="%s"
                 )''' % url
+        try:
+            result = y.execute(query)
+        except:
+            return []
+        return result.rows
+    else:
+        return []
+
+
+def get_yql_subjects(text):
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(ITagHelperSettingsSchema)
+    api_key = settings.yahoo_api_key
+    if api_key:
+        y = yql.Public(api_key)
+        query = '''select * from search.termextract where context ="%s"
+                ''' % text.replace('"',"'")
         try:
             result = y.execute(query)
         except:
