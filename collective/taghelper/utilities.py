@@ -10,7 +10,7 @@ from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
 from collective.taghelper.interfaces import ITagHelperSettingsSchema
 
-from elementtree.ElementTree import XML, tostring
+from elementtree.ElementTree import XML
 
 
 
@@ -33,16 +33,21 @@ def get_alchemy_subjects(text):
     registry = getUtility(IRegistry)
     settings = registry.forInterface(ITagHelperSettingsSchema)
     api_key = settings.alchemy_api_key
+    results = []
     if api_key:
         alchemyObj = AlchemyAPI()
         alchemyObj.setAPIKey(api_key)
         try:
             result = alchemyObj.TextGetRankedConcepts(text)
-            return _list_alchemy_results(result)
+            results += _list_alchemy_results(result)
+            result = alchemyObj.TextGetRankedKeywords(text)
+            results += _list_alchemy_results(result)
+            results = list(set(results))
+            return results
         except:
-            return []
+            return results
     else:
-        return []
+        return results
 
 def get_alchemy_subjects_remote(url):
     registry = getUtility(IRegistry)
@@ -53,11 +58,14 @@ def get_alchemy_subjects_remote(url):
         alchemyObj.setAPIKey(api_key)
         try:
             result = alchemyObj.URLGetRankedConcepts(url)
-            return _list_alchemy_results(result)
+            results += _list_alchemy_results(result)
+            result = alchemyObj.URLGetRankedKeywords(url)
+            results += _list_alchemy_results(result)
+            return results
         except:
-            return []
+            return results
     else:
-        return []
+        return results
 
 def get_yql_subjects_remote(url):
     registry = getUtility(IRegistry)
