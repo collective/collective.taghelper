@@ -57,3 +57,11 @@ class ITagHelperSettingsSchema(interface.Interface):
         readonly=False,
         default=True,
         )
+
+    webservices = schema.List(
+        title = _(u'Use webservices'),
+        required = False,
+        default = [],
+        description = _(u"List the webservices you want to use for tagging"),
+        value_type = schema.Choice(title=_(u"webservices"),
+                    source="collective.taghelper.webservices"))
