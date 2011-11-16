@@ -46,6 +46,7 @@ setup(name='collective.taghelper',
         'Framework :: Plone',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Development Status :: 5 - Production/Stable'
         ],
       keywords='',
       author='',
@@ -68,6 +69,6 @@ setup(name='collective.taghelper',
       [z3c.autoinclude.plugin]
       target = plone
       """,
-      setup_requires=["PasteScript"],
-      paster_plugins=["ZopeSkel"],
+      #setup_requires=["PasteScript"],
+      #paster_plugins=["ZopeSkel"],
       )

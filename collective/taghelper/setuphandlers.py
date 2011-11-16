@@ -1,5 +1,5 @@
+import logging
 from Products.CMFCore.utils import getToolByName
-
 from collective.taghelper.config import PROJECTNAME
 
 PROFILE_ID = 'profile-%s:default' % PROJECTNAME

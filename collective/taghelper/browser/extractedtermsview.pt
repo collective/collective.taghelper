@@ -6,89 +6,43 @@
     <div metal:fill-slot="main">
         <tal:main-macro metal:define-macro="main">
         <form method="post" class="enableFormTabbing"
+                tal:define="services view/services;
+                            has_services python:len(services)"
                 tal:attributes="action string:${context/absolute_url}/${view/__name__}">
-            <fieldset id="fieldset-alchemy" tal:define="terms view/alchemy_terms">
-              <legend id="fieldsetlegend-alchemy">AlchemyAPI</legend>
-              <div tal:repeat="term terms">
-                <input type="checkbox"
-                id="alchemy_term_1"
-                value="Biodiversity"
-                tal:attributes="id string:alchemy_term_${repeat/term/letter};
-                                value term"
-                name="subject:list"
-                 />
-                <label for="alchemy_term_1"
-                    tal:attributes="for string:alchemy_term_${repeat/term/letter}"
-                    tal:content="term">Biodiversity</label>
 
-              </div>
-            </fieldset>
-            <fieldset id="fieldset-calais" tal:define="terms view/calais_terms">
-              <legend id="fieldsetlegend-calais">Open Calais</legend>
-              <div tal:repeat="term terms">
-                <input type="checkbox"
-                id="calais_term_1"
-                value="Biodiversity"
-                tal:attributes="id string:calais_term_${repeat/term/letter};
-                                value term"
-                name="subject:list"
-                 />
-                <label for="calais_term_1"
-                    tal:attributes="for string:calais_term_${repeat/term/letter}"
-                    tal:content="term">Biodiversity</label>
+            <tal:loop tal:repeat="fs services">
+                <fieldset tal:attributes="id string:fieldset-${fs/sid}">
+                    <legend tal:attributes="id string:fieldsetlegend-${fs/sid}"
+                            tal:content="fs/name">SiLLC</legend>
+                    <div id="results-"
+                        tal:attributes="id string:results-${fs/sid}">
+                        Loading please wait.
+                        <img src="/spinner.gif" alt="loading"
+                            tal:attributes="src string:${here/portal_url}/spinner.gif" />
+                    </div>
+                    <script type="text/javascript"
+                                tal:content="structure python:view.get_js(fs['sid'])">
+                           $.get('ajax/@@tagsnippets.html?service=silcc',
+                                    function(data) {
+                                      $('#results').html(data);
+                                      alert('Load was performed.');
+                                });
+                    </script>
+                </fieldset>
 
-              </div>
-            </fieldset>
+            </tal:loop>
 
-            <fieldset id="fieldset-yahoo" tal:define="terms view/yahoo_terms">
-              <legend id="fieldsetlegend-yahoo">Yahoo</legend>
-              <div tal:repeat="term terms">
-                <input type="checkbox"
-                id="yahoo_term_1"
-                value="Biodiversity"
-                tal:attributes="id string:yahoo_term_${repeat/term/letter};
-                                value term"
-                name="subject:list"
-                 />
-                <label for="yahoo_term_1"
-                    tal:attributes="for string:yahoo_term_${repeat/term/letter}"
-                    tal:content="term">Biodiversity</label>
-              </div>
-            </fieldset>
-            <fieldset id="fieldset-ttn" tal:define="terms view/ttn_terms">
-              <legend id="fieldsetlegend-ttn">TagThe.Net</legend>
-              <div tal:repeat="term terms">
-                <input type="checkbox"
-                id="ttn_term_1"
-                value="Biodiversity"
-                tal:attributes="id string:ttn_term_${repeat/term/letter};
-                                value term"
-                name="subject:list"
-                 />
-                <label for="ttn_term_1"
-                    tal:attributes="for string:ttn_term_${repeat/term/letter}"
-                    tal:content="term">Biodiversity</label>
+            <div tal:condition="not:has_services">
+            <p><strong i18n:translate="description_no_providers_found">
+            You have not defined any webservices to extract keywords.
+            Goto 'Site Setup' <a href="/@@taghelpersettings"
+                                tal:attributes="href string:${here/portal_url}/@@taghelpersettings">
+                                'Tag Helper Settings'</a>
+            and add the webservice you want to use.
+            </strong></p>
+            </div>
 
-              </div>
-            </fieldset>
-            <fieldset id="fieldset-silcc" tal:define="terms view/silcc_terms">
-              <legend id="fieldsetlegend-silcc">SiLLC</legend>
-              <div tal:repeat="term terms">
-                <input type="checkbox"
-                id="silcc_term_1"
-                value="Biodiversity"
-                tal:attributes="id string:silcc_term_${repeat/term/letter};
-                                value term"
-                name="subject:list"
-                 />
-                <label for="silcc_term_1"
-                    tal:attributes="for string:silcc_term_${repeat/term/letter}"
-                    tal:content="term">Biodiversity</label>
-
-              </div>
-            </fieldset>
-
-            <div>
+            <div tal:condition="has_services">
                 <input type="submit" class="context" name="form.button.save"
                     value="Save" />
                 <input type="submit" class="context" name="form.button.cancel"

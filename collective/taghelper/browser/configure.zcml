@@ -33,7 +33,15 @@
       class=".filehtmlpreviewview.FileHtmlPreviewView"
       template="filehtmlpreviewview.pt"
       allowed_interface=".filehtmlpreviewview.IFileHtmlPreviewView"
-      permission="zope.Public"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="*"
+      name="tagsnippets.html"
+      class=".extractedtermsview.ETSnippetView"
+      allowed_interface=".extractedtermsview.IETSnippetView"
+      permission="zope2.View"
       />
 
 

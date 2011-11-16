@@ -26,6 +26,8 @@ def _list_alchemy_results(xml):
     if dom.find('status').text == 'OK':
         for concept in dom.findall('.//concept/text'):
             results.append(concept.text)
+        for kw in dom.findall('.//keyword/text'):
+            results.append(kw.text)
     return results
 
 
@@ -40,9 +42,9 @@ def get_alchemy_subjects(text):
         try:
             result = alchemyObj.TextGetRankedConcepts(text)
             results += _list_alchemy_results(result)
-            result = alchemyObj.TextGetRankedKeywords(text)
-            results += _list_alchemy_results(result)
-            results = list(set(results))
+            #result = alchemyObj.TextGetRankedKeywords(text)
+            #results += _list_alchemy_results(result)
+            #results = list(set(results))
             return results
         except:
             return results
@@ -59,8 +61,9 @@ def get_alchemy_subjects_remote(url):
         try:
             result = alchemyObj.URLGetRankedConcepts(url)
             results += _list_alchemy_results(result)
-            result = alchemyObj.URLGetRankedKeywords(url)
-            results += _list_alchemy_results(result)
+            #result = alchemyObj.URLGetRankedKeywords(url)
+            #results += _list_alchemy_results(result)
+            #results = list(set(results))
             return results
         except:
             return results
@@ -134,17 +137,17 @@ def get_calais_subjects(text, uid):
             result = calais.analyze(text, external_id = uid)
         except:
             return []
-        if hasattr( result, 'entities'):
-            for entity in result.entities:
-                if entity['_type'] in PREFERRED_ENTITIES:
-                    subjects.append(entity['name'])
+        #if hasattr( result, 'entities'):
+        #    for entity in result.entities:
+        #        if entity['_type'] in PREFERRED_ENTITIES:
+        #            subjects.append(entity['name'])
         if hasattr( result, 'socialTag'):
             for tag in result.socialTag:
                 subjects.append(tag['name'])
-        if hasattr( result, 'relations'):
-            for fact in result.relations:
-                if fact['_type'] in PREFERRED_FACTS:
-                    ft = fact.get(fact['_type'].lower())
-                    if ft:
-                        subjects.append(ft)
+        #if hasattr( result, 'relations'):
+        #    for fact in result.relations:
+        #        if fact['_type'] in PREFERRED_FACTS:
+        #            ft = fact.get(fact['_type'].lower())
+        #            if ft:
+        #                subjects.append(ft)
     return subjects
