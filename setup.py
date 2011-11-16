@@ -12,25 +12,25 @@ def read(*rnames):
 version = '0.2'
 
 long_description = (
-    read('README.txt')
-    + '\n' +
-    'Change history\n'
-    '**************\n'
-    + '\n' +
-    read('CHANGES.txt')
-    + '\n' +
-    'Detailed Documentation\n'
-    '**********************\n'
-    + '\n' +
-    read('collective', 'taghelper', 'README.txt')
-    + '\n' +
-    'Contributors\n'
-    '************\n'
-    + '\n' +
-    read('CONTRIBUTORS.txt')
-    + '\n' +
-    'Download\n'
-    '********\n')
+read('README.txt')
++ '\n' +
+'Change history\n'
+'**************\n'
++ '\n' +
+read('CHANGES.txt')
+#+ '\n' +
+#'Detailed Documentation\n'
+#'**********************\n'
+#+ '\n' +
+#read('collective', 'taghelper', 'README.txt')
+#+ '\n' +
+#'Contributors\n'
+#'************\n'
+#+ '\n' +
+#read('CONTRIBUTORS.txt')
++ '\n' +
+'Download\n'
+'********\n')
 
 tests_require = ['zope.testing']
 
@@ -49,9 +49,9 @@ setup(name='collective.taghelper',
         'Development Status :: 5 - Production/Stable'
         ],
       keywords='',
-      author='',
-      author_email='',
-      url='http://svn.plone.org/svn/collective/',
+      author='Christian Ledermann',
+      author_email='christian.ledermann@gmail.com',
+      url='http://plone.org/products/collective.taghelper/',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['collective', ],
