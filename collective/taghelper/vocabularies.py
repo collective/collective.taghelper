@@ -18,8 +18,10 @@ def tagging_vocabulary_factory(context):
             items.append(('yahoo', u'Yahoo'))
         if settings.calais_api_key:
             items.append(('calais', u'Open Calais'))
+        if settings.zemanta_api_key:
+            items.append(('zemanta', u'Zemanta'))
         if settings.silcc_url:
             items.append(('silcc', u'SiLLC'))
-    except KeyError:
+    except (KeyError, AttributeError):
         return SimpleVocabulary.fromItems([])
     return SimpleVocabulary.fromItems(items)

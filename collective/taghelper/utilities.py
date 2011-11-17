@@ -5,6 +5,7 @@ from calais import Calais
 from silcc import Silcc
 from tagthenet import TagTheNet
 from AlchemyAPI import AlchemyAPI
+from zemanta import Zemanta
 
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
@@ -19,6 +20,17 @@ PREFERRED_ENTITIES = ['City', 'Continent', 'Country', 'MedicalCondition',
     'MedicalTreatment', 'NaturalFeature', 'Organization', 'ProvinceOrState',
     'Region', 'IndustryTerm']
 PREFERRED_FACTS = ['EnvironmentalIssue', 'ManMadeDisaster', 'NaturalDisaster']
+
+def get_zemanta_subjects(text, title=''):
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(ITagHelperSettingsSchema)
+    api_key = settings.zemanta_api_key
+    results = []
+    if api_key:
+        zemantaObj = Zemanta(api_key)
+        results = zemantaObj.analyze(text, title)
+    return results
+
 
 def _list_alchemy_results(xml):
     dom = XML(xml)

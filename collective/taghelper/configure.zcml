@@ -30,7 +30,13 @@
       profile="collective.taghelper:default"
     />
 
-
+  <genericsetup:upgradeStep
+      title="Upgrade plone.app.registry for changed configuration"
+      source="1002"
+      destination="1003"
+      handler="collective.taghelper.setuphandlers.upgrade_registry"
+      profile="collective.taghelper:default"
+    />
 
   <!-- -*- extra stuff goes here -*- -->
 

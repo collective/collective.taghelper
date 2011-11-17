@@ -16,6 +16,7 @@ from collective.taghelper.utilities import get_ttn_subjects
 from collective.taghelper.utilities import get_ttn_subjects_remote
 from collective.taghelper.utilities import get_alchemy_subjects
 from collective.taghelper.utilities import get_alchemy_subjects_remote
+from collective.taghelper.utilities import get_zemanta_subjects
 from collective.taghelper.interfaces import ITagHelperSettingsSchema
 
 class IExtractedTermsView(Interface):
@@ -100,11 +101,14 @@ class ETSnippetView(BrowserView):
         self.request = request
         if self.context.portal_type == 'File':
             self.url = self.request.URL1 +'/filehtmlpreview_view'
-        elif hasattr(self.context, 'getRemoteUrl'):
+        if hasattr(self.context, 'getRemoteUrl'):
             if self.use_remote_url and self.context.getRemoteUrl():
                 self.url = self.context.getRemoteUrl()
             else:
                 self.url = self.request.URL1 +'?ajax_load=1'
+                self.use_remote_url = False
+        else:
+            self.use_remote_url = False
         if not self.url:
             self.url = self.request.URL1 +'?ajax_load=1'
         self.text = self._get_text()
@@ -143,6 +147,9 @@ class ETSnippetView(BrowserView):
         elif sid=='sillc':
             text = self.context.Title() + '. ' + self.context.Description()
             tags = get_silcc_subjects(text)
+        elif sid =='zemanta':
+            tags = get_zemanta_subjects(self.text, self.context.Title())
+
         else:
             return []
         keywords = list(self.context.Subject())
@@ -172,6 +179,9 @@ class ETSnippetView(BrowserView):
             </a>"""
         elif sid=='sillc':
             t = ''
+        elif sid =='zemanta':
+            t= """ http://developer.zemanta.com/API_terms_of_use/ """
+
         else:
             t = ''
         return t

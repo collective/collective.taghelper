@@ -46,7 +46,13 @@ class ITagHelperSettingsSchema(interface.Interface):
         default=None,
         )
 
-
+    zemanta_api_key = schema.TextLine(
+        title=u'Zemanta API Key',
+        description=u'API Key can be obtained at http://developer.zemanta.com/apps/register/',
+        required=False,
+        readonly=False,
+        default=None,
+        )
 
     use_remote_url = schema.Bool(
         title=u'Use remote url',
