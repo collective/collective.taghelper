@@ -19,10 +19,13 @@ class Zemanta(object):
         'return_images': 0,
         'return_keywords': 1,
         'text_title': title,
+        'images_limit': 0,
+        'articles_limit': 0,
         'format': 'json'}
         args_enc = urllib.urlencode(args)
         raw_output = urllib.urlopen(self.url, args_enc).read()
         output = json.loads(raw_output)
         if output['status'].lower()=='ok':
+            #XXX filter out only kw with 'relevance' > 0.5
             return [kw['name'] for kw in output['keywords']]
         return []

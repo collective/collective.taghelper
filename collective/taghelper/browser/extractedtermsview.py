@@ -17,6 +17,9 @@ from collective.taghelper.utilities import get_ttn_subjects_remote
 from collective.taghelper.utilities import get_alchemy_subjects
 from collective.taghelper.utilities import get_alchemy_subjects_remote
 from collective.taghelper.utilities import get_zemanta_subjects
+from collective.taghelper.utilities import get_amplify_subjects
+from collective.taghelper.utilities import get_amplify_subjects_remote
+
 from collective.taghelper.interfaces import ITagHelperSettingsSchema
 
 class IExtractedTermsView(Interface):
@@ -141,7 +144,11 @@ class ETSnippetView(BrowserView):
                 tags = get_yql_subjects_remote(self.url)
             else:
                  tags = get_yql_subjects(self.text)
-
+        elif sid=='openamplify':
+            if self.use_remote_url:
+                tags = get_amplify_subjects_remote(self.url)
+            else:
+                 tags = get_amplify_subjects(self.text)
         elif sid=='opencalais':
             tags = get_calais_subjects(self.text, self.context.UID())
         elif sid=='sillc':
@@ -181,7 +188,8 @@ class ETSnippetView(BrowserView):
             t = ''
         elif sid =='zemanta':
             t= """ http://developer.zemanta.com/API_terms_of_use/ """
-
+        elif sid =='openamplify':
+            t= """  """
         else:
             t = ''
         return t

@@ -6,6 +6,7 @@ from silcc import Silcc
 from tagthenet import TagTheNet
 from AlchemyAPI import AlchemyAPI
 from zemanta import Zemanta
+from amplify import Amplify
 
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
@@ -20,6 +21,28 @@ PREFERRED_ENTITIES = ['City', 'Continent', 'Country', 'MedicalCondition',
     'MedicalTreatment', 'NaturalFeature', 'Organization', 'ProvinceOrState',
     'Region', 'IndustryTerm']
 PREFERRED_FACTS = ['EnvironmentalIssue', 'ManMadeDisaster', 'NaturalDisaster']
+
+def get_amplify_subjects(text):
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(ITagHelperSettingsSchema)
+    api_key = settings.openamplify_api_key
+    results = []
+    if api_key:
+        amplifyObj = Amplify(api_key)
+        results = amplifyObj.amplify(text)
+    return results
+
+def get_amplify_subjects_remote(url):
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(ITagHelperSettingsSchema)
+    api_key = settings.amplify_api_key
+    results = []
+    a_url = 'sourceURL=' + url
+    if api_key:
+        amplifyObj = Amplify(api_key)
+        results = amplifyObj.amplify(a_url)
+    return results
+
 
 def get_zemanta_subjects(text, title=''):
     registry = getUtility(IRegistry)

@@ -20,6 +20,8 @@ def tagging_vocabulary_factory(context):
             items.append(('calais', u'Open Calais'))
         if settings.zemanta_api_key:
             items.append(('zemanta', u'Zemanta'))
+        if settings.openamplify_api_key:
+            items.append(('openamplify', u'OpenAmplify'))
         if settings.silcc_url:
             items.append(('silcc', u'SiLLC'))
     except (KeyError, AttributeError):

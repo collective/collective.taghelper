@@ -54,6 +54,14 @@ class ITagHelperSettingsSchema(interface.Interface):
         default=None,
         )
 
+    openamplify_api_key = schema.TextLine(
+        title=u'OpenAmplify API Key',
+        description=u'API Key can be obtained at http://www.openamplify.com/user',
+        required=False,
+        readonly=False,
+        default=None,
+        )
+
     use_remote_url = schema.Bool(
         title=u'Use remote url',
         description=u'''If the content item has a remote url
