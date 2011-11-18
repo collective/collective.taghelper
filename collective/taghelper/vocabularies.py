@@ -22,6 +22,8 @@ def tagging_vocabulary_factory(context):
             items.append(('zemanta', u'Zemanta'))
         if settings.openamplify_api_key:
             items.append(('openamplify', u'OpenAmplify'))
+        if settings.evri_api_key:
+            items.append(('evri', u'Evri'))
         if settings.silcc_url:
             items.append(('silcc', u'SiLLC'))
     except (KeyError, AttributeError):

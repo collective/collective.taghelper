@@ -62,6 +62,15 @@ class ITagHelperSettingsSchema(interface.Interface):
         default=None,
         )
 
+    evri_api_key = schema.TextLine(
+        title=u'Evri API Key',
+        description=u'API Key can be obtained at http://www.evri.com/developer/api-registration',
+        required=False,
+        readonly=False,
+        default=None,
+        )
+
+
     use_remote_url = schema.Bool(
         title=u'Use remote url',
         description=u'''If the content item has a remote url

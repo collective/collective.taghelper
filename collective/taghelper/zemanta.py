@@ -15,7 +15,7 @@ class Zemanta(object):
     def analyze(self, text, title=''):
         args = {'method': "zemanta.suggest",
         'api_key': self.api_key,
-        'text': text,
+        'text': text.lstrip(title),
         'return_images': 0,
         'return_keywords': 1,
         'text_title': title,

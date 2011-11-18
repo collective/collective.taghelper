@@ -19,6 +19,7 @@ from collective.taghelper.utilities import get_alchemy_subjects_remote
 from collective.taghelper.utilities import get_zemanta_subjects
 from collective.taghelper.utilities import get_amplify_subjects
 from collective.taghelper.utilities import get_amplify_subjects_remote
+from collective.taghelper.utilities import get_evri_subjects
 
 from collective.taghelper.interfaces import ITagHelperSettingsSchema
 
@@ -118,7 +119,10 @@ class ETSnippetView(BrowserView):
 
     def _get_text(self):
         if hasattr(self.context, 'SearchableText'):
-            return self.context.SearchableText()
+            text = self.context.SearchableText().strip().lstrip(self.context.id)
+            text = text.lstrip().lstrip(self.context.Title())
+            text = self.context.Title() + '\n\n' + text
+            return text
         else:
             return ''
 
@@ -149,6 +153,11 @@ class ETSnippetView(BrowserView):
                 tags = get_amplify_subjects_remote(self.url)
             else:
                  tags = get_amplify_subjects(self.text)
+        elif sid=='evri':
+            if self.use_remote_url:
+                tags = get_evri_subjects(self.url)
+            else:
+                 tags = get_evri_subjects(self.url, self.text)
         elif sid=='opencalais':
             tags = get_calais_subjects(self.text, self.context.UID())
         elif sid=='sillc':
@@ -189,7 +198,12 @@ class ETSnippetView(BrowserView):
         elif sid =='zemanta':
             t= """ http://developer.zemanta.com/API_terms_of_use/ """
         elif sid =='openamplify':
-            t= """  """
+            t= """ http://openamplify.com/terms
+            http://openamplify.com/sites/default/files/logo.png
+             """
+        elif sid =='evri':
+            t= """https://www.webservius.com/cons-help/legal/consumer-agreement.aspx?cobrand=Evri
+            """
         else:
             t = ''
         return t

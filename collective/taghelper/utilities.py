@@ -7,6 +7,7 @@ from tagthenet import TagTheNet
 from AlchemyAPI import AlchemyAPI
 from zemanta import Zemanta
 from amplify import Amplify
+from evri import Evri
 
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
@@ -21,6 +22,17 @@ PREFERRED_ENTITIES = ['City', 'Continent', 'Country', 'MedicalCondition',
     'MedicalTreatment', 'NaturalFeature', 'Organization', 'ProvinceOrState',
     'Region', 'IndustryTerm']
 PREFERRED_FACTS = ['EnvironmentalIssue', 'ManMadeDisaster', 'NaturalDisaster']
+
+def get_evri_subjects(url, text=None):
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(ITagHelperSettingsSchema)
+    api_key = settings.evri_api_key
+    results = []
+    if api_key:
+        evriObj = Evri(api_key)
+        results = evriObj.analyze(url, text)
+    return results
+
 
 def get_amplify_subjects(text):
     registry = getUtility(IRegistry)

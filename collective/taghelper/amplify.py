@@ -35,7 +35,7 @@ class Amplify(object):
                 return ['Invalid API key.']
             return ['error %i' % e.code]
 
-        output = json.loads( response.read())
+        output = json.loads(response.read())
         results =[]
         try:
              results = [kw['Name'] for kw in output['ns1:TopicsResponse']['TopicsReturn']['Topics']['Locations']]
