@@ -119,9 +119,9 @@ class ETSnippetView(BrowserView):
 
     def _get_text(self):
         if hasattr(self.context, 'SearchableText'):
-            text = self.context.SearchableText().strip().lstrip(self.context.id)
-            text = text.lstrip().lstrip(self.context.Title())
-            text = self.context.Title() + '\n\n' + text
+            text = self.context.SearchableText().strip().lstrip(self.context.id).encode('utf-8', 'ignore')
+            text = text.lstrip().lstrip(self.context.Title().encode('utf-8', 'ignore')).encode('utf-8', 'ignore')
+            text = self.context.Title().encode('utf-8', 'ignore') + u'\n\n' + text
             return text
         else:
             return ''
@@ -196,13 +196,21 @@ class ETSnippetView(BrowserView):
         elif sid=='sillc':
             t = ''
         elif sid =='zemanta':
-            t= """ http://developer.zemanta.com/API_terms_of_use/ """
+            t= """<a href="http://developer.zemanta.com/API_terms_of_use/">
+            Terms of Use
+            <img src="http://www.zemanta.com/smedia/img/layout/logo.png" alt="Zemanta"/>
+            </a>
+             """
         elif sid =='openamplify':
-            t= """ http://openamplify.com/terms
-            http://openamplify.com/sites/default/files/logo.png
+            t= """<a href="http://openamplify.com/terms">
+            OpenAmplify Terms of Service </a>
+            <a href="http://www.openAmplify.com" >
+            <img src="http://openamplify.com/sites/default/files/logo.png" alt="openAmplify" />
+            </a>
              """
         elif sid =='evri':
-            t= """https://www.webservius.com/cons-help/legal/consumer-agreement.aspx?cobrand=Evri
+            t= """<a href=https://www.webservius.com/cons-help/legal/consumer-agreement.aspx?cobrand=Evri" >
+            Consumer Agreement </a>
             """
         else:
             t = ''

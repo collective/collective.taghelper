@@ -12,10 +12,12 @@ def tagging_vocabulary_factory(context):
     try:
         registry = getUtility(IRegistry)
         settings = registry.forInterface(ITagHelperSettingsSchema)
-        if settings.alchemy_api_key:
-            items.append(('alchemy', u'AlchemyAPI'))
+        if settings.silcc_url:
+            items.append(('silcc', u'SiLLC'))
         if settings.yahoo_api_key:
             items.append(('yahoo', u'Yahoo'))
+        if settings.alchemy_api_key:
+            items.append(('alchemy', u'AlchemyAPI'))
         if settings.calais_api_key:
             items.append(('calais', u'Open Calais'))
         if settings.zemanta_api_key:
@@ -24,8 +26,7 @@ def tagging_vocabulary_factory(context):
             items.append(('openamplify', u'OpenAmplify'))
         if settings.evri_api_key:
             items.append(('evri', u'Evri'))
-        if settings.silcc_url:
-            items.append(('silcc', u'SiLLC'))
+
     except (KeyError, AttributeError):
-        return SimpleVocabulary.fromItems([])
+        return SimpleVocabulary.fromItems(items)
     return SimpleVocabulary.fromItems(items)

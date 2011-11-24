@@ -13,6 +13,15 @@ class ITagHelperSettingsSchema(interface.Interface):
         default=None,
         )
 
+    calais_relevance = schema.Float(
+        title=u'Open Calais relevance',
+        description=u'1 and above',
+        required=True,
+        readonly=False,
+        default=0.5,
+        )
+
+
     yahoo_api_key = schema.TextLine(
         title=u'Yahoo API Key',
         description=u'API Key can be obtained at http://developer.apps.yahoo.com/dashboard/createKey.html',
@@ -46,6 +55,15 @@ class ITagHelperSettingsSchema(interface.Interface):
         default=None,
         )
 
+    alchemy_relevance = schema.Float(
+        title=u'AlchemyAPI relevance',
+        description=u'between 0 and 1',
+        required=True,
+        readonly=False,
+        default=0.2,
+        )
+
+
     zemanta_api_key = schema.TextLine(
         title=u'Zemanta API Key',
         description=u'API Key can be obtained at http://developer.zemanta.com/apps/register/',
@@ -53,6 +71,15 @@ class ITagHelperSettingsSchema(interface.Interface):
         readonly=False,
         default=None,
         )
+
+    zemanta_relevance = schema.Float(
+        title=u'Zemanta relevance',
+        description=u'between 0 and 1',
+        required=True,
+        readonly=False,
+        default=0.05,
+        )
+
 
     openamplify_api_key = schema.TextLine(
         title=u'OpenAmplify API Key',
@@ -70,6 +97,13 @@ class ITagHelperSettingsSchema(interface.Interface):
         default=None,
         )
 
+    evri_relevance = schema.Float(
+        title=u'Evri relevance',
+        description=u'>>1',
+        required=True,
+        readonly=False,
+        default=1.0,
+        )
 
     use_remote_url = schema.Bool(
         title=u'Use remote url',

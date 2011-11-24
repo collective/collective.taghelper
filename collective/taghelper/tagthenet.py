@@ -23,7 +23,7 @@ class TagTheNet(object):
                 self.language = self.language + dim.get('language', [])
                 self.topics = self.topics + dim.get('topic', [])
                 self.location = self.location + dim.get('location', [])
-        return self.topics
+        return self.topics + self.location
 
     def analyze_url(self, url):
         '''

@@ -5,8 +5,9 @@ from elementtree.ElementTree import XML
 class Evri(object):
     url = 'http://api.evri.com/v1/media/entities'
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, relevance = 1.0):
         self.api_key = api_key
+        self.relevance = relevance
 
     def analyze(self, url, text=None):
         if text:
@@ -25,10 +26,14 @@ class Evri(object):
         results = []
         for entity in dom.findall('.//entity'):
             name = entity.find('name')
+            try:
+                if float(entity.attrib['score']) < self.relevance:
+                    continue
+            except KeyError:
+                pass
             if name != None:
                 if name.text in aliases:
                     continue
-                print name.text
             cname = entity.find('canonicalName')
             if cname != None:
                 name = cname

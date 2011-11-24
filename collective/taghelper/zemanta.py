@@ -9,8 +9,9 @@ class Zemanta(object):
     api_key = None
     url = 'http://api.zemanta.com/services/rest/0.0/'
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, relevance):
         self.api_key = api_key
+        self.relevance = relevance
 
     def analyze(self, text, title=''):
         args = {'method': "zemanta.suggest",
@@ -26,6 +27,5 @@ class Zemanta(object):
         raw_output = urllib.urlopen(self.url, args_enc).read()
         output = json.loads(raw_output)
         if output['status'].lower()=='ok':
-            #XXX filter out only kw with 'relevance' > 0.5
-            return [kw['name'] for kw in output['keywords']]
+            return [kw['name'] for kw in output['keywords'] if kw['confidence'] > self.relevance]
         return []
