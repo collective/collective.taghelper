@@ -9,42 +9,41 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.2'
+version = '0.3'
 
 long_description = (
 read('README.txt')
-+ '\n' +
-'Change history\n'
-'**************\n'
-+ '\n' +
-read('CHANGES.txt')
-#+ '\n' +
-#'Detailed Documentation\n'
-#'**********************\n'
-#+ '\n' +
-#read('collective', 'taghelper', 'README.txt')
-#+ '\n' +
-#'Contributors\n'
-#'************\n'
-#+ '\n' +
-#read('CONTRIBUTORS.txt')
-+ '\n' +
-'Download\n'
-'********\n')
+        + '\n' +
+        'Change history\n'
+        '**************\n'
+        + '\n' +
+        read('CHANGES.txt')
+        #+ '\n' +
+        #'Detailed Documentation\n'
+        #'**********************\n'
+        #+ '\n' +
+        #read('collective', 'taghelper', 'README.txt')
+        #+ '\n' +
+        #'Contributors\n'
+        #'************\n'
+        #+ '\n' +
+        #read('CONTRIBUTORS.txt')
+        + '\n' +
+        'Download\n'
+        '********\n')
 
 tests_require = ['zope.testing']
 
 setup(name='collective.taghelper',
       version=version,
-      description="""The act of tagging content is tedious and humans will
-            often fail to do it. Taghelper examines the content and
-            extracts the keywords that are most relevant.""",
+      description="""The act of tagging content is tedious and humans will often fail to do it. Taghelper examines the content and extracts the keywords that are most relevant.""",
       long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         'Framework :: Plone',
-        'Intended Audience :: Developers',
+        'Framework :: Plone :: 4.0',
+        'Framework :: Plone :: 4.1',
         'License :: OSI Approved :: GNU General Public License (GPL)',
         'Development Status :: 5 - Production/Stable'
         ],

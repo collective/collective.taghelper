@@ -1,7 +1,9 @@
 Project Description
 ===================
 
-Taghelper uses OpenCalais, Yahoo, SiLLC and tagthe.net
+Taghelper uses Zemanta, OpenAmplify, Evri, OpenCalais, Yahoo, SiLLC
+and tagthe.net
+
 
 Installation with buildout
 ==========================
