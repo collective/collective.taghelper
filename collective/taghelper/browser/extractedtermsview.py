@@ -119,9 +119,18 @@ class ETSnippetView(BrowserView):
 
     def _get_text(self):
         if hasattr(self.context, 'SearchableText'):
-            text = self.context.SearchableText().strip().lstrip(self.context.id).encode('utf-8', 'ignore')
-            text = text.lstrip().lstrip(self.context.Title().encode('utf-8', 'ignore')).encode('utf-8', 'ignore')
-            text = self.context.Title().encode('utf-8', 'ignore') + u'\n\n' + text
+            text = self.context.SearchableText()
+            id = self.context.getId()
+            title = self.context.Title()
+
+            text = text.strip()
+            text = text.lstrip(id)
+            text = text.strip().lstrip(title)
+
+            text = text.decode('utf-8')
+            title = title.decode('utf-8')
+
+            text = title + u'\n\n' + text
             return text
         else:
             return ''
