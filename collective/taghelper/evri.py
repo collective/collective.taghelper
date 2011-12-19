@@ -19,28 +19,29 @@ class Evri(object):
             'appId': self.api_key}
         args_enc = urllib.urlencode(args)
         output = urllib.urlopen(self.url, args_enc).read()
-        dom = XML(output)
-        aliases = []
-        for alias in dom.findall('.//alias'):
-            aliases.append(alias.text)
         results = []
-        for entity in dom.findall('.//entity'):
-            name = entity.find('name')
-            try:
-                if float(entity.attrib['score']) < self.relevance:
+        if output:
+            dom = XML(output)
+            aliases = []
+            for alias in dom.findall('.//alias'):
+                aliases.append(alias.text)
+            for entity in dom.findall('.//entity'):
+                name = entity.find('name')
+                try:
+                    if float(entity.attrib['score']) < self.relevance:
+                        continue
+                except KeyError:
+                    pass
+                if name != None:
+                    if name.text in aliases:
+                        continue
+                cname = entity.find('canonicalName')
+                if cname != None:
+                    name = cname
+                if name == None:
                     continue
-            except KeyError:
-                pass
-            if name != None:
-                if name.text in aliases:
-                    continue
-            cname = entity.find('canonicalName')
-            if cname != None:
-                name = cname
-            if name == None:
-                continue
-            else:
-                if name.text in results:
-                    continue
-            results.append(name.text)
+                else:
+                    if name.text in results:
+                        continue
+                results.append(name.text)
         return results

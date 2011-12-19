@@ -131,7 +131,7 @@ class ETSnippetView(BrowserView):
             title = title.decode('utf-8')
 
             text = title + u'\n\n' + text
-            return text
+            return text.encode('utf-8')
         else:
             return ''
 
