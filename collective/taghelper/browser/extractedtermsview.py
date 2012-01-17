@@ -20,6 +20,7 @@ from collective.taghelper.utilities import get_zemanta_subjects
 from collective.taghelper.utilities import get_amplify_subjects
 from collective.taghelper.utilities import get_amplify_subjects_remote
 from collective.taghelper.utilities import get_evri_subjects
+from collective.taghelper.utilities import get_tpcom_subject
 
 from collective.taghelper.interfaces import ITagHelperSettingsSchema
 
@@ -174,7 +175,8 @@ class ETSnippetView(BrowserView):
             tags = get_silcc_subjects(text)
         elif sid =='zemanta':
             tags = get_zemanta_subjects(self.text, self.context.Title())
-
+        elif sid =='text-processingcom':
+            tags = get_tpcom_subject(self.text)
         else:
             return []
         keywords = list(self.context.Subject())

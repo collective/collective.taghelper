@@ -8,6 +8,7 @@ from AlchemyAPI import AlchemyAPI
 from zemanta import Zemanta
 from amplify import Amplify
 from evri import Evri
+from tpcom import TextProcessing
 
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
@@ -205,3 +206,7 @@ def get_calais_subjects(text, uid):
         #            if ft:
         #                subjects.append(ft)
     return subjects
+
+def get_tpcom_subject(text):
+    tp = TextProcessing()
+    return tp.analyze(text)

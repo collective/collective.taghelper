@@ -9,6 +9,7 @@ from collective.taghelper.interfaces import ITagHelperSettingsSchema
 def tagging_vocabulary_factory(context):
     items = []
     items.append(('ttn', u'TagThe.Net'))
+    items.append(('tpcom', u'text-processing.com'))
     try:
         registry = getUtility(IRegistry)
         settings = registry.forInterface(ITagHelperSettingsSchema)
