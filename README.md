@@ -23,7 +23,7 @@ a new tab for your content named tagging. In this form you can choose the
 keywords you want to add to your content. Keywords assigned earlier
 manually will be preserved.
 
-- Code repository: https://svn.plone.org/svn/collective/collective.taghelper/
+- Code repository: https://github.com/collective/collective.taghelper
 - Questions and comments to product-developers@lists.plone.org
-- Report bugs at http://plone.org/products/collective.taghelper/issues
+- Report bugs at https://github.com/collective/collective.taghelper/issues
 
