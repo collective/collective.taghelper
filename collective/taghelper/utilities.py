@@ -14,7 +14,10 @@ from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
 from collective.taghelper.interfaces import ITagHelperSettingsSchema
 
-from elementtree.ElementTree import XML
+try:
+    from xml.etree.ElementTree import XML
+except ImportError: 
+    from elementtree.ElementTree import XML
 
 
 
