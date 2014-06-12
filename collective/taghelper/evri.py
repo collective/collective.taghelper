@@ -1,5 +1,8 @@
 import urllib, urllib2
-from elementtree.ElementTree import XML
+try:
+    import xml.etree.ElementTree as etree
+except ImportError: 
+    import elementtree.ElementTree as etree
 
 
 class Evri(object):
